@@ -119,6 +119,7 @@ cs:
     admin_title: "Administrace"
     flags_title: "Nahlášení"
     show_more: "zobrazit více"
+    show_help: "pomoc"
     links: "Odkazy"
     links_lowercase: "odkazy"
     faq: "FAQ"
@@ -153,10 +154,10 @@ cs:
       stat:
         all_time: "Za celou dobu"
         last_7_days: "Posledních 7 dní"
-      like_count: "Počet líbí se"
-      topic_count: "Počet témat"
-      post_count: "Počet příspěvků"
-      user_count: "Počet uživatelů"
+      like_count: "Líbí se"
+      topic_count: "Témata"
+      post_count: "Příspěvky"
+      user_count: "Uživatelé"
     bookmarks:
       not_logged_in: "Pro přidání záložky se musíte přihlásit."
       created: "Záložka byla přidána."
@@ -283,6 +284,7 @@ cs:
       invited_by: "Pozvánka od"
       trust_level: "Důvěryhodnost"
       notifications: "Oznámení"
+      dismiss_notifications: "Označ vše jako přečtené"
       disable_jump_reply: "Po odpovědi nepřeskakovat na nový příspěvek"
       dynamic_favicon: "Zobrazovat notifikace na favikoně"
       edit_history_public: "Povolit ostatním zobrazení všechn verzí mého příspěvku"
@@ -526,8 +528,6 @@ cs:
     created: 'Vytvořeno'
     created_lowercase: 'vytvořeno'
     trust_level: 'Důvěryhodnost'
-    search_hint: 'uživatelské jméno'
-    search_hint_admin: 'uživatelské jméno nebo email'
     create_account:
       title: "Vytvořit nový účet"
       failed: "Něco se nepovedlo, možná je tato e-mailová adresa již použita. Zkuste použít formulář pro obnovení hesla."
@@ -612,7 +612,6 @@ cs:
       view_new_post: "Zobrazit váš nový příspěvek."
       saving: "Ukládám..."
       saved: "Uloženo!"
-      saved_draft: "Máte rozepsaný příspěvek. Pokračujte v psaní kliknutím na tuto řádku."
       uploading: "Nahrávám..."
       show_preview: 'zobrazit náhled &raquo;'
       hide_preview: '&laquo; skrýt náhled'
@@ -825,6 +824,8 @@ cs:
           '2_4': 'Budete dostávat oznámení, protože jste zaslal odpověď do tohoto tématu.'
           '2_2': 'Budete dostávat oznámení, protože sledujete toto téma.'
           '2': 'Budete dostávat oznámení, protože <a href="/users/{{username}}/preferences">jste četli toto téma</a>.'
+          '1_2': 'Budete informováni pokud někdo zmíní vaše @jméno nebo odpoví na váš příspěvek.'
+          '1': 'Budete informováni pokud někdo zmíní vaše @jméno nebo odpoví na váš příspěvek.'
           '0_7': 'Ignorujete všechna oznámení v této kategorii.'
           '0_2': 'Ignorujete všechna oznámení z tohoto tématu.'
           '0': 'Ignorujete všechna oznámení z tohoto tématu.'
@@ -840,6 +841,7 @@ cs:
           title: "Sledované"
         regular:
           title: "Klasicky"
+          description: "Budete informováni pokud někdo zmíní vaše @jméno nebo odpoví na váš příspěvek."
         regular_pm:
           title: "Normální"
         muted_pm:
@@ -1908,7 +1910,6 @@ cs:
         few: "1 udělen"
         other: "%{count} uděleno"
       select_badge_for_title: Vyberte odznak, který chcete použít jako svůj titul
-      no_title: "<no title>"
       badge_grouping:
         other:
           name: Ostatní

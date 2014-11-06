@@ -28,6 +28,7 @@ class StaticController < ApplicationController
 
     if map.has_key?(@page)
       @topic = Topic.find_by_id(SiteSetting.send(map[@page][:topic_id]))
+      @title = @topic.title
       raise Discourse::NotFound unless @topic
       @body = @topic.posts.first.cooked
       @faq_overriden = !SiteSetting.faq_url.blank?
@@ -65,7 +66,9 @@ class StaticController < ApplicationController
       begin
         forum_uri = URI(Discourse.base_url)
         uri = URI(params[:redirect])
-        if uri.path.present? && (uri.host.blank? || uri.host == forum_uri.host)
+        if uri.path.present? &&
+           (uri.host.blank? || uri.host == forum_uri.host) &&
+           uri.path !~ /\./
           destination = uri.path
         end
       rescue URI::InvalidURIError

@@ -15,7 +15,20 @@ Discourse.TopicRoute = Discourse.Route.extend({
   titleToken: function() {
     var model = this.modelFor('topic');
     if (model) {
-      return model.get('title');
+      var result = model.get('title'),
+          cat = model.get('category');
+
+      if (cat && !cat.get('isUncategorized')) {
+        var catName = cat.get('name'),
+            parentCategory = cat.get('parentCategory');
+
+        if (parentCategory) {
+          catName = parentCategory.get('name') + " / " + catName;
+        }
+
+        return [result, catName];
+      }
+      return result;
     }
   },
 
@@ -23,18 +36,6 @@ Discourse.TopicRoute = Discourse.Route.extend({
 
     showTopicAdminMenu: function() {
       this.controllerFor("topic-admin-menu").send("show");
-    },
-
-    // Modals that can pop up within a topic
-    expandPostUser: function(post) {
-      this.controllerFor('user-card').show(post.get('username'), post.get('uploaded_avatar_id'));
-    },
-
-    expandPostUsername: function(username) {
-      username = username.replace(/^@/, '');
-      if (!Em.isEmpty(username)) {
-        this.controllerFor('user-card').show(username);
-      }
     },
 
     showFlags: function(post) {
@@ -69,7 +70,7 @@ Discourse.TopicRoute = Discourse.Route.extend({
 
     showHistory: function(post) {
       Discourse.Route.showModal(this, 'history', post);
-      this.controllerFor('history').refresh(post.get("id"), post.get("version"));
+      this.controllerFor('history').refresh(post.get("id"), "latest");
       this.controllerFor('modal').set('modalClass', 'history-modal');
     },
 

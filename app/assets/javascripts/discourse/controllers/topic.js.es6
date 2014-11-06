@@ -1,4 +1,5 @@
 import ObjectController from 'discourse/controllers/object';
+import { spinnerHTML } from 'discourse/helpers/loading-spinner';
 
 export default ObjectController.extend(Discourse.SelectedPostsCount, {
   multiSelect: false,
@@ -8,6 +9,7 @@ export default ObjectController.extend(Discourse.SelectedPostsCount, {
   selectedPosts: null,
   selectedReplies: null,
   queryParams: ['filter', 'username_filters', 'show_deleted'],
+  searchHighlight: null,
 
   maxTitleLength: Discourse.computed.setting('max_topic_title_length'),
 
@@ -23,7 +25,7 @@ export default ObjectController.extend(Discourse.SelectedPostsCount, {
       // and are sometimes lazily loaded.
       this.send('refreshTitle');
     }
-  }.observes('title'),
+  }.observes('title', 'category'),
 
   termChanged: function() {
     var dropdown = this.get('controllers.header.visibleDropdown');
@@ -39,11 +41,24 @@ export default ObjectController.extend(Discourse.SelectedPostsCount, {
 
   }.observes('controllers.search.term', 'controllers.header.visibleDropdown'),
 
-  filter: function(key, value) {
+  show_deleted: function(key, value) {
+    var postStream = this.get('postStream');
+    if (!postStream) { return; }
+
     if (arguments.length > 1) {
-      this.set('postStream.summary', value === "summary");
+      postStream.set('show_deleted', value);
     }
-    return this.get('postStream.summary') ? "summary" : null;
+    return postStream.get('show_deleted') ? true : null;
+  }.property('postStream.summary'),
+
+  filter: function(key, value) {
+    var postStream = this.get('postStream');
+    if (!postStream) { return; }
+
+    if (arguments.length > 1) {
+      postStream.set('summary', value === "summary");
+    }
+    return postStream.get('summary') ? "summary" : null;
   }.property('postStream.summary'),
 
   username_filters: Discourse.computed.queryAlias('postStream.streamFilters.username_filters'),
@@ -496,7 +511,7 @@ export default ObjectController.extend(Discourse.SelectedPostsCount, {
   }.property('isPrivateMessage'),
 
   loadingHTML: function() {
-    return "<div class='spinner'></div>";
+    return spinnerHTML;
   }.property(),
 
   recoverTopic: function() {

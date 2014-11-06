@@ -104,6 +104,7 @@ nb_NO:
     admin_title: "Admin"
     flags_title: "Rapporteringer"
     show_more: "vis mer"
+    show_help: "hjelp"
     links: "Lenker"
     links_lowercase: "lenker"
     faq: "FAQ"
@@ -138,10 +139,10 @@ nb_NO:
       stat:
         all_time: "Gjennom tidene"
         last_7_days: "Siste 7 dager"
-      like_count: "Antall liker"
-      topic_count: "Antall emner"
-      post_count: "Antall innlegg"
-      user_count: "Antall brukere"
+      like_count: "Likes"
+      topic_count: "Emner"
+      post_count: "Innlegg"
+      user_count: "Brukere"
     bookmarks:
       not_logged_in: "beklager, du må være innlogget for å kunne bokmerke innlegg"
       created: "du har bokmerket dette innlegget"
@@ -262,6 +263,8 @@ nb_NO:
       invited_by: "Invitert av"
       trust_level: "Tillitsnivå"
       notifications: "Varsler"
+      dismiss_notifications: "Merk alle som lest"
+      dismiss_notifications_tooltip: "Merk alle uleste varslinger som lest"
       disable_jump_reply: "Ikke hopp til ditt nye innlegg etter svar"
       dynamic_favicon: "Vis innkommende meldingsvarsler på favicon (eksperimentel)"
       edit_history_public: "La andre brukere se mine innleggsrevisjoner"
@@ -502,8 +505,6 @@ nb_NO:
     created: 'Opprettet'
     created_lowercase: 'opprettet'
     trust_level: 'Tillitsnivå'
-    search_hint: 'brukernavn'
-    search_hint_admin: 'brukernavn eller email'
     create_account:
       title: "Opprett ny konto"
       failed: "Noe gikk galt, kanskje denne e-postadressen allerede er registrert. Prøv lenke for glemt passord"
@@ -589,7 +590,6 @@ nb_NO:
       view_new_post: "Se ditt nye innlegg."
       saving: "Lagrer..."
       saved: "Lagret!"
-      saved_draft: "Du har et pågående utkast. Velg dette området for å gjennoppta redigeringen."
       uploading: "Laster opp..."
       show_preview: 'se forhånsvisning &raquo;'
       hide_preview: '&laquo; skjul forhåndsvisning'
@@ -1235,6 +1235,8 @@ nb_NO:
     category_title: "Kategori"
     history: "Historie"
     changed_by: "av {{author}}"
+    raw_email:
+      not_available: "Ikke tilgjengelig!"
     categories_list: "Kategoriliste"
     filters:
       with_topics: "%{filter} emner"
@@ -1919,6 +1921,7 @@ nb_NO:
         listable: Vis merket på den offentlige merkesiden
         enabled: Aktiver merke
         icon: Ikon
+        image: Bilde
         query: Spørring for merke (SQL)
         target_posts: Spørring har innlegg som mål
         auto_revoke: Kjør tilbakedragningsspørring daglig
@@ -2012,7 +2015,6 @@ nb_NO:
         one: "1 tildelt"
         other: "%{count} tildelt"
       select_badge_for_title: Velg et merke å bruke som din tittel
-      no_title: "<ingen tittel>"
       badge_grouping:
         getting_started:
           name: Kom i gang
@@ -2094,3 +2096,12 @@ nb_NO:
         reader:
           name: Leser
           description: Leste hvert innlegg i et emne med mer enn 100 innlegg
+    google_search: |
+      <h2>Søk med Google</h2>
+      <p>
+        <form action='//google.com/search' id='google-search' onsubmit="document.getElementById('google-query').value = 'site:' + window.location.host + ' ' + document.getElementById('user-query').value; return true;">
+          <input type="text" id='user-query' value="">
+          <input type='hidden' id='google-query' name="q">
+          <button class="btn btn-primary">Google</button>
+        </form>
+      </p>

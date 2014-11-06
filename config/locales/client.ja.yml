@@ -120,10 +120,6 @@ ja:
       stat:
         all_time: "All Time"
         last_7_days: "過去7日間"
-      like_count: "「いいね！」数"
-      topic_count: "トピック数"
-      post_count: "投稿数"
-      user_count: "ユーザ数"
     bookmarks:
       not_logged_in: "ポストをブックマークするには、ログインする必要があります"
       created: "このポストをブックマークしました"
@@ -474,8 +470,6 @@ ja:
     created: '作成'
     created_lowercase: '作成'
     trust_level: 'トラストレベル'
-    search_hint: 'ユーザ名'
-    search_hint_admin: 'ユーザーメールかEメールアドレス'
     create_account:
       title: "アカウントの作成"
       failed: "エラーが発生しました。既にこのメールアドレスは使用中かもしれません。「パスワードを忘れました」リンクを試してみてください"
@@ -560,7 +554,6 @@ ja:
       view_new_post: "新規ポストを見る。"
       saving: "保存中..."
       saved: "保存完了!"
-      saved_draft: "編集中の投稿があります。こちらをクリックすると編集を再開します。"
       uploading: "アップロード中..."
       show_preview: 'プレビューを表示する &raquo;'
       hide_preview: '&laquo; プレビューを隠す'

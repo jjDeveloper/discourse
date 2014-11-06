@@ -347,6 +347,9 @@ posting:
     default: true
   suppress_reply_when_quoting:
     default: true
+  max_reply_history:
+    default: 1
+    client: true
   experimental_reply_expansion:
     default: false
     client: true
@@ -616,6 +619,9 @@ developer:
     client: true
     default: true
   long_polling_interval: 25000
+  long_polling_base_url:
+    client: true
+    default: '/'
   background_polling_interval:
     client: true
     default: 60000
@@ -707,6 +713,7 @@ uncategorized:
   summary_posts_required: 50
   summary_likes_required: 1
   summary_percent_filter: 20
+  summary_max_results: 100
 
   # View heat thresholds
   topic_views_heat_low:

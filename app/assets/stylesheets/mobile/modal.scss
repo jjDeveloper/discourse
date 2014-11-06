@@ -35,7 +35,7 @@
 .modal-body {
   overflow-y: auto;
   max-height: 400px;
-  padding: 10px 0 10px 15px;
+  padding: 10px 0 10px 10px;
   width: 95%;
 }
 
@@ -162,4 +162,17 @@
   .btn {
     float: none !important;
   }
+}
+
+#search-help {
+  max-width: 300px;
+}
+
+#search-help h2 {
+  margin: 0;
+  font-size: 12px;
+}
+
+#search-help p {
+ margin: 5px;
 }

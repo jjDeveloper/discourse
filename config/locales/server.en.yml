@@ -414,7 +414,7 @@ en:
   activation:
     action: "Activate your account"
     already_done: "Sorry, this account confirmation link is no longer valid. Perhaps your account is already active?"
-    please_continue: "Your new account is confirmed, and you are now logged in."
+    please_continue: "Your new account is confirmed! You will now be redirected to the home page."
     continue_button: "Continue to %{site_name}"
     welcome_to: "Welcome to %{site_name}!"
     approval_required: "A moderator must manually approve your new account before you can access this forum. You'll get an email when your account is approved!"
@@ -422,7 +422,7 @@ en:
   post_action_types:
     off_topic:
       title: 'Off-Topic'
-      description: 'This post is radically off-topic in the current topic, and should probably be moved. If this is a topic, perhaps it does not belong here.'
+      description: 'This post is not relevant to the current discussion as defined by the title and first post, and should probably be moved elsewhere.'
       long_form: 'flagged this as off-topic'
     spam:
       title: 'Spam'
@@ -440,7 +440,7 @@ en:
       email_body: "%{link}\n\n%{message}"
     notify_moderators:
       title: 'Notify moderators'
-      description: 'This post requires general moderator attention based on the <a href="/guidelines">guidelines</a>, <a href="%{tos_url}">TOS</a>, or for another reason not listed above.'
+      description: 'This post requires moderator attention for another reason not listed above.'
       long_form: 'notified moderators'
       email_title: 'A post in "%{title}" requires moderator attention'
       email_body: "%{link}\n\n%{message}"
@@ -695,9 +695,12 @@ en:
     summary_posts_required: "Minimum posts in a topic before 'Summarize This Topic' is enabled"
     summary_likes_required: "Minimum likes in a topic before 'Summarize This Topic' is enabled"
     summary_percent_filter: "When a user clicks 'Summarize This Topic', show the top % of posts"
+    summary_max_results: "Maximum posts returned by 'Summary This Topic'"
+
     enable_private_messages: "Allow trust level 1 users to create private messages and reply to private messages"
 
     enable_long_polling: "Message bus used for notification can use long polling"
+    long_polling_base_url: "Base URL used for long polling (when a CDN is serving dynamic content, be sure to set this to origin pull) eg: http://origin.site.com"
     long_polling_interval: "Amount of time the server should wait before responding to clients when there is no data to send (logged on users only)"
     polling_interval: "When not long polling, how often should logged on clients poll in milliseconds"
     anon_polling_interval: "How often should anonymous clients poll in milliseconds"
@@ -740,6 +743,7 @@ en:
     suppress_reply_directly_below: "Don't show the expandable reply count on a post when there is only a single reply directly below this post."
     suppress_reply_directly_above: "Don't show the expandable in-reply-to on a post when there is only a single reply directly above this post."
     suppress_reply_when_quoting: "Don't show the expandable in-reply-to on a post when post quotes reply."
+    max_reply_history: "Maximum number of replies to expand when expanding in-reply-to"
 
     experimental_reply_expansion: "Hide intermediate replies when expanding a reply to (experimental)"
 
@@ -1076,18 +1080,25 @@ en:
     closed_enabled: "This topic is now closed. New replies are no longer allowed."
     closed_disabled: "This topic is now opened. New replies are allowed."
     autoclosed_enabled_days:
-      zero: "This topic was automatically closed after 1 day. New replies are no longer allowed."
       one: "This topic was automatically closed after 1 day. New replies are no longer allowed."
       other: "This topic was automatically closed after %{count} days. New replies are no longer allowed."
     autoclosed_enabled_hours:
-      zero: "This topic was automatically closed after 1 hour. New replies are no longer allowed."
       one: "This topic was automatically closed after 1 hour. New replies are no longer allowed."
       other: "This topic was automatically closed after %{count} hours. New replies are no longer allowed."
     autoclosed_enabled_minutes:
-      zero: "This topic was automatically closed after 1 minute. New replies are no longer allowed."
       one: "This topic was automatically closed after 1 minute. New replies are no longer allowed."
       other: "This topic was automatically closed after %{count} minutes. New replies are no longer allowed."
+    autoclosed_enabled_lastpost_days:
+      one: "This topic was automatically closed 1 day after the last reply. New replies are no longer allowed."
+      other: "This topic was automatically closed %{count} days after the last reply. New replies are no longer allowed."
+    autoclosed_enabled_lastpost_hours:
+      one: "This topic was automatically closed 1 hour after the last reply. New replies are no longer allowed."
+      other: "This topic was automatically closed count} hours after the last reply. New replies are no longer allowed."
+    autoclosed_enabled_lastpost_minutes:
+      one: "This topic was automatically closed 1 minute after the last reply. New replies are no longer allowed."
+      other: "This topic was automatically closed %{count} minutes after the last reply. New replies are no longer allowed."
     autoclosed_disabled: "This topic is now opened. New replies are allowed."
+    autoclosed_disabled_lastpost: "This topic is now opened. New replies are allowed."
     pinned_enabled: "This topic is now pinned. It will appear at the top of its category until it is unpinned by staff for everyone, or by individual users for themselves."
     pinned_disabled: "This topic is now unpinned. It will no longer appear at the top of its category."
     pinned_globally_enabled: "This topic is now pinned globally. It will appear at the top of its category and all topic lists until it is unpinned by staff for everyone, or by individual users for themselves."
@@ -1520,6 +1531,20 @@ en:
         We're sorry, but your email message to %{destination} (titled %{former_title}) didn't work.
 
         None of the destination addresses are recognized. Please make sure that the site address is in the To: line (not Cc: or Bcc:), and that you are sending to the correct email address provided by staff.
+
+    email_reject_topic_not_found:
+      subject_template: "Email issue -- Topic Not Found"
+      text_body_template: |
+        We're sorry, but your email message to %{destination} (titled %{former_title}) didn't work.
+
+        The topic is not found, it may have been deleted. If you believe this is in error, contact a staff member.
+
+    email_reject_topic_closed:
+      subject_template: "Email issue -- Topic Closed"
+      text_body_template: |
+        We're sorry, but your email message to %{destination} (titled %{former_title}) didn't work.
+
+        The topic is closed. If you believe this is in error, contact a staff member.
 
     email_error_notification:
       subject_template: "Email issue -- POP authentication error"

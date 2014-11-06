@@ -130,7 +130,7 @@ Discourse.PostStream = Em.Object.extend({
 
   hasNoFilters: function() {
     var streamFilters = this.get('streamFilters');
-    return !(streamFilters && ((streamFilters.filter === 'summary') || streamFilters.userFilters));
+    return !(streamFilters && ((streamFilters.filter === 'summary') || streamFilters.username_filters));
   }.property('streamFilters.[]', 'topic.posts_count', 'posts.length'),
 
   /**
@@ -649,7 +649,7 @@ Discourse.PostStream = Em.Object.extend({
   **/
   findReplyHistory: function(post) {
     var postStream = this,
-        url = "/posts/" + post.get('id') + "/reply-history.json";
+        url = "/posts/" + post.get('id') + "/reply-history.json?max_replies=" + Discourse.SiteSettings.max_reply_history;
 
     return Discourse.ajax(url).then(function(result) {
       return result.map(function (p) {

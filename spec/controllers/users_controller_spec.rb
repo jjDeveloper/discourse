@@ -357,8 +357,8 @@ describe UsersController do
 
         expect(JSON.parse(response.body)['active']).to be_falsey
 
-        # should save user_created_email in session
-        session["user_created_email"].should == @user.email
+        # should save user_created_message in session
+        session["user_created_message"].should be_present
       end
 
       context "and 'must approve users' site setting is enabled" do
@@ -393,8 +393,8 @@ describe UsersController do
         User.any_instance.expects(:enqueue_welcome_message).with('welcome_user')
         post_user
 
-        # should save user_created_email in session
-        session["user_created_email"].should == @user.email
+        # should save user_created_message in session
+        session["user_created_message"].should be_present
       end
 
       it "shows the 'active' message" do
@@ -479,7 +479,7 @@ describe UsersController do
         json["success"].should == true
 
         # should not change the session
-        session["user_created_email"].should be_blank
+        session["user_created_message"].should be_blank
       end
     end
 
@@ -521,9 +521,9 @@ describe UsersController do
         xhr :post, :create, create_params
         json = JSON::parse(response.body)
         json["success"].should_not == true
-        
+
         # should not change the session
-        session["user_created_email"].should be_blank
+        session["user_created_message"].should be_blank
       end
     end
 
@@ -1405,6 +1405,16 @@ describe UsersController do
       it "returns both email and associated_accounts when you're allowed to see them" do
         Guardian.any_instance.expects(:can_check_emails?).returns(true)
         xhr :put, :check_emails, username: Fabricate(:user).username
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["email"].should be_present
+        json["associated_accounts"].should be_present
+      end
+
+      it "works on inactive users" do
+        inactive_user = Fabricate(:user, active: false)
+        Guardian.any_instance.expects(:can_check_emails?).returns(true)
+        xhr :put, :check_emails, username: inactive_user.username
         response.should be_success
         json = JSON.parse(response.body)
         json["email"].should be_present

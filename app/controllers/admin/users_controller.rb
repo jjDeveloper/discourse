@@ -25,9 +25,14 @@ class Admin::UsersController < Admin::AdminController
                                     :revoke_api_key]
 
   def index
-    params.merge!({ admin: current_user.admin? })
-    query = ::AdminUserIndexQuery.new(params)
-    render_serialized(query.find_users, AdminUserSerializer)
+    users = ::AdminUserIndexQuery.new(params).find_users
+
+    if params[:show_emails] == "true"
+      guardian.can_see_emails = true
+      StaffActionLogger.new(current_user).log_show_emails(users)
+    end
+
+    render_serialized(users, AdminUserSerializer)
   end
 
   def show
@@ -256,6 +261,18 @@ class Admin::UsersController < Admin::AdminController
     location = Excon.get("http://ipinfo.io/#{ip}/json", read_timeout: 30, connect_timeout: 30).body rescue nil
 
     render json: location
+  end
+
+  def sync_sso
+    unless SiteSetting.enable_sso
+      render nothing: true, status: 404
+      return
+    end
+
+    sso = DiscourseSingleSignOn.parse("sso=#{params[:sso]}&sig=#{params[:sig]}")
+    user = sso.lookup_or_create_user
+
+    render_serialized(user, AdminDetailedUserSerializer, root: false)
   end
 
   private

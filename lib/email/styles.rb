@@ -27,6 +27,7 @@ module Email
     def format_basic
       uri = URI(Discourse.base_url)
 
+      # images
       @fragment.css('img').each do |img|
 
         next if img['class'] == 'site-logo'
@@ -51,6 +52,20 @@ module Email
           img['src'] = "#{uri.scheme}:#{img['src']}"
         end
       end
+
+      # attachments
+      @fragment.css('a.attachment').each do |a|
+
+        # ensure all urls are absolute
+        if a['href'] =~ /^\/[^\/]/
+          a['href'] = "#{Discourse.base_url}#{a['href']}"
+        end
+
+        # ensure no schemaless urls
+        if a['href'] && a['href'].starts_with?("//")
+          a['href'] = "#{uri.scheme}:#{a['href']}"
+        end
+      end
     end
 
     def format_notification
@@ -62,8 +77,6 @@ module Email
       style('.user-avatar img', nil, width: '45', height: '45')
       style('hr', 'background-color: #ddd; height: 1px; border: 1px;')
       style('.rtl', 'direction: rtl;')
-      # we can do this but it does not look right
-      # style('#main', 'font-family:"Helvetica Neue", Helvetica, Arial, sans-serif')
       style('td.body', 'padding-top:5px;', colspan: "2")
       correct_first_body_margin
       correct_footer_style
@@ -77,7 +90,7 @@ module Email
       style('aside.quote', 'border-left: 5px solid #bebebe; background-color: #f1f1f1; padding: 12px 25px 2px 12px; margin-bottom: 10px;')
       style('aside.quote blockquote', 'border: 0px; padding: 0; margin: 7px 0')
       style('aside.quote div.info-line', 'color: #666; margin: 10px 0')
-      style('aside.quote .avatar', 'margin-right: 5px')
+      style('aside.quote .avatar', 'margin-right: 5px; width:20px; height:20px')
 
       # Oneboxes
       style('aside.onebox', "padding: 12px 25px 2px 12px; border-left: 5px solid #bebebe; background: #eee; margin-bottom: 10px;")
@@ -142,7 +155,7 @@ module Email
 
     def strip_avatars_and_emojis
       @fragment.css('img').each do |img|
-        if img['src'] =~ /user_avatar/
+        if img['src'] =~ /_avatar/
           img.parent['style'] = "vertical-align: top;" if img.parent.name == 'td'
           img.remove
         end

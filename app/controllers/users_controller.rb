@@ -94,7 +94,7 @@ class UsersController < ApplicationController
   end
 
   def check_emails
-    user = fetch_user_from_params
+    user = fetch_user_from_params(include_inactive: true)
     guardian.ensure_can_check_emails!(user)
 
     StaffActionLogger.new(current_user).log_check_email(user, context: params[:context])
@@ -245,7 +245,7 @@ class UsersController < ApplicationController
       activation.finish
 
       # save user email in session, to show on account-created page
-      session["user_created_email"] = user.email
+      session["user_created_message"] = activation.message
 
       render json: {
         success: true,
@@ -364,6 +364,7 @@ class UsersController < ApplicationController
   end
 
   def account_created
+    @message = session['user_created_message']
     expires_now
     render layout: 'no_js'
   end
